@@ -719,20 +719,20 @@ impl Client {
                         dynamic_registration: Some(false),
                         resolve_support: None,
                     }),
+                    document_symbol: Some(lsp::DocumentSymbolClientCapabilities {
+                        dynamic_registration: Some(false),
+                        symbol_kind: Some(lsp::SymbolKindCapability {
+                            value_set: Some(lsp::SymbolKind::all()),
+                        }),
+                        hierarchical_document_symbol_support: Some(true),
+                        ..Default::default()
+                    }),
                     document_link: Some(lsp::DocumentLinkClientCapabilities {
                         dynamic_registration: Some(false),
                         tooltip_support: Some(false),
                     }),
                     call_hierarchy: Some(lsp::DynamicRegistrationClientCapabilities {
                         dynamic_registration: Some(false),
-                    }),
-                    document_symbol: Some(lsp::DocumentSymbolClientCapabilities {
-                        dynamic_registration: Some(false),
-                        symbol_kind: Some(lsp::SymbolKindCapability {
-                            value_set: Some(lsp::SymbolKind::all()),
-                        }),
-                        hierarchical_document_symbol_support: Some(false),
-                        ..Default::default()
                     }),
                     ..Default::default()
                 }),

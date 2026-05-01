@@ -316,7 +316,9 @@ pub fn symbol_picker(cx: &mut Context) {
         uri: &Uri,
         symbol: lsp::DocumentSymbol,
         offset_encoding: OffsetEncoding,
+        container_name: Option<String>,
     ) {
+        let name = symbol.name.clone();
         #[allow(deprecated)]
         list.push(SymbolInformationItem {
             symbol: lsp::SymbolInformation {
@@ -325,7 +327,7 @@ pub fn symbol_picker(cx: &mut Context) {
                 tags: symbol.tags,
                 deprecated: symbol.deprecated,
                 location: lsp::Location::new(file.uri.clone(), symbol.selection_range),
-                container_name: None,
+                container_name,
             },
             location: Location {
                 uri: uri.clone(),
@@ -334,7 +336,7 @@ pub fn symbol_picker(cx: &mut Context) {
             },
         });
         for child in symbol.children.into_iter().flatten() {
-            nested_to_flat(list, file, uri, child, offset_encoding);
+            nested_to_flat(list, file, uri, child, offset_encoding, Some(name.clone()));
         }
     }
     let doc = doc!(cx.editor);
@@ -380,6 +382,7 @@ pub fn symbol_picker(cx: &mut Context) {
                                 &doc_uri,
                                 symbol,
                                 offset_encoding,
+                                None,
                             )
                         }
                         flat_symbols
